@@ -1,0 +1,164 @@
+Multi-Threading:
+----------------
+
+A thread is a lightweight process, the smallest unit of processing. It is a seperate path of execution.
+
+Threads are independent. If there occurs exception in one thread, it doesn't affect another thread. It uses a shared memory area.
+
+Multithreading is a process of executing multiple threads simultaneously.
+
+Multithreading is mostly used in Animations and games.
+
+Advantages of Multithreading:
+-----------------------------
+1.It doesn't block the user because threads are independent and you can perform multiple operations at the same time.
+
+2.You can peform many operations together, so it saves time.
+
+3.Threads are independent, so it doesn't affect other threads if an exception occurs in a single thread.
+
+Multitasking:
+-------------
+Multitasking is a process of executing multiple tasks simultaneously. We use multitasking to utilize the CPU.
+
+Multitasking can be achieved in 2 ways
+
+1.Process-based multitasking(Multiprocessing)
+2.Thread-based multitasking(Multithreading)
+
+1.Process-based multitasking(Multiprocessing):
+----------------------------------------------
+Each process has an address in memory. In other words, each process allocated a separate memory area.
+
+A process is heavy weight
+
+Cost of communication between the process is high
+
+2.Thread-based multitasking(Multithreading):
+---------------------------------------------
+Threads share the same address space
+
+A thread is a light weight
+
+Cost of communication between the thread is low
+
+
+
+
+public class test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("lets find the current Thread");
+		Thread tr =new Thread();
+		System.out.println("Current Thread:"+tr.getThreadGroup().getName());
+
+	}
+
+}
+
+//creating thread class by extending thread class
+public class myThread extends Thread {
+
+	public void run() {
+		System.out.println("Concurrent thread started running");
+	}
+
+	public static void main(String[] args) {
+		myThread tr =new myThread();
+		tr.start(); //when we call start method the run method executed in multithreded way
+	
+	}
+
+}
+
+
+//creating thread class by implementing runnable interface
+public class MyThread2 implements Runnable{
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		System.out.println("my thread is running");
+		
+	}
+
+	public static void main(String[] args) {
+		MyThread2 tr=new MyThread2();
+		Thread t=new Thread(tr);
+		t.start();
+
+	
+		
+	}
+}
+
+
+
+public class MyRunableThread implements Runnable{
+
+	public static int myCount=0;
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while(MyRunableThread.myCount<=100) {
+			try {
+				System.out.println("Exmple Thread:"+(++MyRunableThread.myCount));
+				Thread.sleep(100);
+			}
+			catch(InterruptedException iex) {
+				System.out.println("Exception in Thread:"+iex.getMessage());
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Starting Main THread...");
+		MyRunableThread mrt=new MyRunableThread();
+		Thread t=new Thread(mrt);
+		t.start();
+		while(MyRunableThread.myCount<=10) {
+			try {
+				System.out.println("Main THread:"+(++MyRunableThread.myCount));
+				Thread.sleep(100);
+			}
+			catch(InterruptedException iex) {
+				System.out.println("Exception in Main Thread:"+iex.getMessage());
+			}
+		}
+		System.out.println("End of main thread...");
+	}
+
+}
+
+
+
+public class TestSleep extends Thread {
+	
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<5;i++) {
+			try {
+				//the thread will sleep 500 milli seconds
+				Thread.sleep(2000);
+			}
+			catch(InterruptedException iex) {
+				System.out.println(iex);
+			}
+			System.out.println(i);
+		}
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		TestSleep t1=new TestSleep();
+		TestSleep t2=new TestSleep();
+		t1.start();
+		Thread.sleep(4000);
+		t2.start();
+	}
+
+
